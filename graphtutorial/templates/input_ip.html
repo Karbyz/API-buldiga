@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 2: Enter IP Address</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #6c757d;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            position: absolute;
+            top: 20px; /* Отступ сверху */
+            left: 20px; /* Отступ слева */
+            transition: background-color 0.3s ease;
+            z-index: 10; /* Убедиться, что кнопка поверх всех элементов */
+        }
+
+        .button:hover {
+            background-color: #5a6268;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333333;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            border: 1px solid;
+            width: 100%;
+            text-align: center;
+        }
+
+        .result.success {
+            border-color: #d4edda;
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .result.error {
+            border-color: #f8d7da;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="button">Главная</a>
+    <div class="container">
+        <form method="post">
+            <label for="ip_address">IP Address:</label>
+            <input type="text" id="ip_address" name="ip_address" required>
+            
+            <label for="origin_choice">Choose an Origin:</label>
+            <select id="origin_choice" name="origin_choice" required>
+                <option value="1">Qradar</option>
+                <option value="2">KATAP</option>
+                <option value="3">Kaspersky-Alert</option>
+                <option value="4">ptaf</option>
+                <option value="5">Microsoft-Defender</option>
+                <option value="6">Sec-IS</option>
+                <option value="7">IoC</option>
+                <option value="8">ForcePoint</option>
+                <option value="9">Anti-DDoS</option>
+                <option value="10">SnapShot</option>
+            </select>
+
+            <input type="submit" value="Submit">
+
+            {% if result %}
+            <div class="result {{ 'error' if 'ip' in result else 'success' }}">
+                <h2>Result:</h2>
+                <p>{{ result }}</p>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>

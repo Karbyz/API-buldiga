@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parse Input</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        button, .button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        button:hover, .button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        button:active, .button:active {
+            background-color: #004494;
+            transform: scale(1);
+        }
+
+        .publish-button {
+            background-color: #28a745;
+        }
+
+        .publish-button:hover {
+            background-color: #218838;
+        }
+
+        .publish-button:active {
+            background-color: #1e7e34;
+        }
+
+        .home-button {
+            background-color: #17a2b8;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .home-button:hover {
+            background-color: #138496;
+        }
+
+        .home-button:active {
+            background-color: #117a8b;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            border: 1px solid;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .result.success {
+            border-color: #d4edda;
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .result.error {
+            border-color: #f8d7da;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .button-container button {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Parse Input Results</h1>
+    <a href="/" class="button home-button">Главная</a>
+    <form id="parseForm" method="post">
+        <div class="button-container">
+            <button type="button" id="analyzeButton">Analyze Excel File</button>
+            <button type="button" id="publishButton" class="publish-button">Publish Changes</button>
+        </div>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('analyzeButton').onclick = function() {
+            var form = document.getElementById('parseForm');
+            var formData = new FormData(form);
+            fetch('/parse_input', {
+                method: 'POST',
+                body: formData
+            }).then(function(response) {
+                var reader = response.body.getReader();
+                var decoder = new TextDecoder('utf-8');
+                var resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '';
+
+                function read() {
+                    reader.read().then(({ done, value }) => {
+                        if (done) {
+                            resultsDiv.innerHTML += "))))))))))))))))))))))))))))))))))))))))))))))))))))";
+                            return;
+                        }
+                        var text = decoder.decode(value);
+                        resultsDiv.innerHTML += text;
+                        read();
+                    });
+                }
+                read();
+            });
+        };
+
+        document.getElementById('publishButton').onclick = function() {
+            var form = document.getElementById('parseForm');
+            var formData = new FormData(form);
+            formData.append('publish_changes', 'true');
+
+            fetch('/parse_input', {
+                method: 'POST',
+                body: formData
+            }).then(function(response) {
+                // Handle the response if needed
+                alert("Changes published successfully");
+            });
+        };
+    </script>
+</body>
+</html>
